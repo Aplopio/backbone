@@ -984,6 +984,8 @@
     this.cid = _.uniqueId('view');
     this._configure(options || {});
     this._ensureElement();
+    this.childViews = [];
+    _.bindAll( this );
     this.initialize.apply(this, arguments);
     this.delegateEvents();
   };
@@ -1077,6 +1079,36 @@
     undelegateEvents: function() {
       this.$el.off('.delegateEvents' + this.cid);
       return this;
+    },
+
+    // Each View maintains list of its child views,
+    // so that when a View is deleted, all of its child views can be deleted.
+    // So, each childView is created through this function, that adds the new
+    // child view to the list.
+    createChildView: function( Constructor, options ) {
+      var child_view = new Constructor( _.extend( {}, options || this.options ) );
+      child_view.parent_view = this;
+      this.childViews.push( child_view );
+      return child_view;
+    },
+
+    // Close all the child views of this view
+    closeChildViews: function(){
+      _( this.childViews ).each( function( child_view, name ) {
+        child_view.close();
+      });
+    },
+
+    // Close this view:
+    // - Remove the view from DOM
+    // - Unbind all events
+    // - Stop triggering any events
+    // - Close all child views
+    close: function() {
+      var self = this;
+      this.remove();
+      this.off();
+      this.closeChildViews();
     },
 
     // Performs the initial configuration of a View with a set of options.
