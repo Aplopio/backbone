@@ -1105,10 +1105,16 @@
     // - Stop triggering any events
     // - Close all child views
     close: function() {
-      var self = this;
+      this.beforeClose();
       this.remove();
       this.off();
       this.closeChildViews();
+    },
+
+    /* before closing the view, do any cleanup,
+       like destroying associated widgets that add elements
+       outside the view's el */
+    beforeClose: function() {
     },
 
     // Performs the initial configuration of a View with a set of options.
