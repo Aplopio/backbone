@@ -1109,6 +1109,7 @@
       this.remove();
       this.off();
       this.closeChildViews();
+      this.trigger( 'closed' );
     },
 
     /* before closing the view, do any cleanup,
