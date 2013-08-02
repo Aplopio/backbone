@@ -1093,9 +1093,9 @@
     },
 
     // Close all the child views of this view
-    closeChildViews: function(){
+    closeChildViews: function(options){
       _( this.childViews ).each( function( child_view, name ) {
-        child_view.close();
+        child_view.close(options);
       });
     },
 
@@ -1104,11 +1104,16 @@
     // - Unbind all events
     // - Stop triggering any events
     // - Close all child views
-    close: function() {
+    close: function(options) {
       this.beforeClose();
-      this.remove();
+      options = options || {};
+      if (options.preserve_dom) {
+        this.stopListening();
+      } else {
+        this.remove();
+      }
       this.off();
-      this.closeChildViews();
+      this.closeChildViews(options);
       this.trigger( 'closed' );
     },
 
