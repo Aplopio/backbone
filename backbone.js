@@ -1332,7 +1332,7 @@
     _extractParameters: function(route, fragment) {
       var params = route.exec(fragment).slice(1);
       return _.map(params, function(param) {
-        return param ? decodeURIComponent(param) : null;
+        return param || null;
       });
     }
 
