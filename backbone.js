@@ -1108,7 +1108,8 @@
       this.beforeClose();
       options = options || {};
       if (options.preserve_dom) {
-        this.stopListening();
+        this.undelegateEvents(); // DOM events
+        this.stopListening(); // View events
       } else {
         this.remove();
       }
