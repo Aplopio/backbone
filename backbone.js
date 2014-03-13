@@ -1105,6 +1105,7 @@
     // - Stop triggering any events
     // - Close all child views
     close: function(options) {
+      this.closeChildViews(options);
       this.beforeClose();
       options = options || {};
       if (options.preserve_dom) {
@@ -1114,7 +1115,6 @@
         this.remove();
       }
       this.off();
-      this.closeChildViews(options);
       this.trigger( 'closed' );
     },
 
