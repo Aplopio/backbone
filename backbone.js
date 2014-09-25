@@ -1094,9 +1094,12 @@
 
     // Close all the child views of this view
     closeChildViews: function(options){
-      _( this.childViews ).each( function( child_view, name ) {
-        child_view.close(options);
-      });
+      // Fastest way to clear an array:
+      // http://stackoverflow.com/questions/1232040/how-to-empty-an-array-in-javascript/17306971#17306971
+      while(this.childViews.length) {
+        this.childViews.pop()
+          .close(options);
+      }
     },
 
     // Close this view:
